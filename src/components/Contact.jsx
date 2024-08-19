@@ -4,6 +4,31 @@ import phone from '../assets/phone.png'
 import gmail from '../assets/gmail.png'
 
 const Contact = () => {
+
+  const onSubmit = async (event) => {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+
+    formData.append("access_key", "f96f6840-61ce-40dd-82ad-62d4c9068c9f");
+
+    const object = Object.fromEntries(formData);
+    const json = JSON.stringify(object);
+
+    const res = await fetch("https://api.web3forms.com/submit", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json"
+      },
+      body: json
+    }).then((res) => res.json());
+
+    if (res.success) {
+      console.log("Success", res);
+      event.target.reset();
+    }
+  };
+
   return (
     <div className='px-24 py-16 flex flex-col '>
       <div className='flex flex-row justify-between'>
@@ -26,7 +51,7 @@ const Contact = () => {
           </div>
         </div>
         <div className='flex items-center'>
-          <form>
+          <form  onSubmit={onSubmit}>
             <div className='flex flex-row mt-12 justify-between items-center gap-20'>
               <div className='relative'>
                 <input
@@ -53,7 +78,7 @@ const Contact = () => {
                 />
                 <label
                   htmlFor="email"
-                  className='absolute left-2 -top-3 text-black text-sm font-semibold transition-all peer-placeholder-shown:top-2 peer-placeholder-shown:text-base peer-placeholder-shown:text-[555555] peer-focus:-top-5 peer-focus:text-sm peer-focus:text-black'
+                  className='absolute left-2 -top-7 text-black text-sm font-semibold transition-all peer-placeholder-shown:top-2 peer-placeholder-shown:text-base peer-placeholder-shown:text-[555555] peer-focus:-top-5 peer-focus:text-sm peer-focus:text-black'
                 >
                   Email
                 </label>
@@ -70,7 +95,7 @@ const Contact = () => {
               />
               <label
                 htmlFor="text"
-                className='absolute left-2 -top-3 text-black text-sm font-semibold transition-all peer-placeholder-shown:top-2 peer-placeholder-shown:text-base peer-placeholder-shown:text-[555555] peer-focus:-top-5 peer-focus:text-sm peer-focus:text-black'
+                className='absolute left-2 -top-7 text-black text-sm font-semibold transition-all peer-placeholder-shown:top-2 peer-placeholder-shown:text-base peer-placeholder-shown:text-[555555] peer-focus:-top-5 peer-focus:text-sm peer-focus:text-black'
               >
                 How Can I Help You?
               </label>
